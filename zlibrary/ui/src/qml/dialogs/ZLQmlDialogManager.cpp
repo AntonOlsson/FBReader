@@ -26,9 +26,9 @@
 #include <QUrl>
 #include <QDebug>
 #if QT5
-#include <QtQml>
+    #include <QtQml>
 #else
-#include <QtDeclarative>
+    #include <QtDeclarative>
 #endif
 
 #include "ZLQmlDialogManager.h"
@@ -145,9 +145,9 @@ void ZLQmlDialogManager::setClipboardImage(const ZLImageData &imageData, Clipboa
 
 template <typename Method>
 ZLQmlDialogManager::Event::Event(QObject *o, const ZLQmlDialogManager *p, Method m)
-    : QEvent(eventType()), object(o), parent(const_cast<ZLQmlDialogManager*>(p)) {
+    : QEvent(eventType()), object(o), parent(const_cast<ZLQmlDialogManager *>(p)) {
 	method = static_cast<DialogRequestedSignal>(m);
-    qApp->postEvent(parent, this);
+    qApp->postEvent(parent.data(), this);
 }
 
 ZLQmlDialogManager::Event::~Event() {

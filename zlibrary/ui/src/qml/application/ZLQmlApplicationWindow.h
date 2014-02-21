@@ -25,9 +25,10 @@
 #include <QMainWindow>
 #include <QAction>
 #include <QCursor>
-
 #if QT5
-#include <QQmlListProperty>
+	#include <QQmlListProperty>
+#else
+	#include <QDeclarativeListProperty>
 #endif
 
 #ifdef MEEGO_EDITION
@@ -94,6 +95,7 @@ private:
 #else
     QDeclarativeListProperty<QObject> actions();
 #endif
+
 	bool eventFilter(QObject *, QEvent *);
 
 Q_SIGNALS:

@@ -47,7 +47,7 @@ void ZLQmlDialogContent::addOptions(const std::string &name0, const std::string 
 	++myRowCounter;
 }
 
-QObjectList ZLQmlDialogContent::items() const {
+QList<QObject*> ZLQmlDialogContent::items() const {
 	return myItems;
 }
 

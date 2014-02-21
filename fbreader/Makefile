@@ -7,12 +7,8 @@ include $(MAKEFILESDIR)/config.mk
 TARGET = FBReader
 target = fbreader
 
-ifeq "$(TARGET_ARCH)" "sailfish"
-TARGET = harbour-fbreader
-endif
-
 ALL_SUBDIRS = src src/database src/database/sqldb src/database/sqldb/implsqlite src/database/booksdb src/database/booksdb/runnables src/migration src/options src/library src/bookmodel src/formats src/formats/fb2 src/formats/docbook src/formats/css src/formats/html src/formats/pdb src/formats/txt src/formats/tcr src/formats/chm src/formats/xhtml src/formats/oeb src/formats/rtf src/formats/openreader src/formats/pdf src/formats/dummy src/formats/util src/external src/fbreader src/encodingOption src/network src/network/authentication src/network/authentication/basic src/network/atom src/network/opds src/network/authentication/litres src/blockTree src/libraryActions src/libraryTree src/networkActions src/networkTree src/optionsDialog src/optionsDialog/bookInfo src/optionsDialog/library src/optionsDialog/network src/optionsDialog/system src/optionsDialog/reading src/optionsDialog/lookAndFeel src/optionsDialogMobile src/tree
-ALL_ARCHSUBDIRS = desktop pdaxrom opie zaurus maemo openzaurus pma400 win32 sailfish
+ALL_ARCHSUBDIRS = desktop pdaxrom opie zaurus maemo openzaurus pma400 win32 meego sailfish
 
 SUBDIRS = src/database src/database/sqldb src/database/sqldb/implsqlite src/database/booksdb src/database/booksdb/runnables src/migration src/options src/library src/bookmodel \
 	src/formats src/formats/fb2 src/formats/css src/formats/html src/formats/pdb src/formats/txt src/formats/tcr src/formats/chm src/formats/xhtml src/formats/oeb src/formats/rtf src/formats/openreader src/formats/util \
@@ -31,7 +27,7 @@ all: .resources
 	@$(LD) $(LDFLAGS) -o $(TARGET) `find src -name *.o` -L$(ROOTDIR)/zlibrary/text $(TEXT_LIBS) $(CORE_LIBS)
 	@echo ' OK'
 
-FBSHAREDIR = $(DESTDIR)$(SHAREDIR)/$(TARGET)
+FBSHAREDIR = $(DESTDIR)$(SHAREDIR)/FBReader
 VARIANT = $(TARGET_ARCH)
 ifneq "$(RESOLUTION)" "" 
   VARIANT = $(TARGET_ARCH)_$(RESOLUTION)
@@ -47,7 +43,7 @@ APPIMAGEDIR_REAL = $(subst %application_name%,$(target),$(subst %APPLICATION_NAM
 
 do_install:
 	@install -d $(DESTDIR)$(BINDIR)
-	@install $(TARGET) $(DESTDIR)$(BINDIR)/$(TARGET)
+	@install $(TARGET) $(DESTDIR)$(BINDIR)/FBReader
 	@install -d $(FBSHAREDIR)
 	@install -d $(FBSHAREDIR)/help
 	@./scripts/install_help.sh $(VARIANT) $(FBSHAREDIR)/help
@@ -68,15 +64,12 @@ do_install:
 	@if [ -f data/default/messages.$(TARGET_ARCH).xml ]; then \
 		install -m 0644 data/default/messages.$(TARGET_ARCH).xml $(FBSHAREDIR)/default/messages.xml; \
 	fi
-	@echo 'Copy resources'
 	@install -d $(FBSHAREDIR)/resources
 	@install -m 0644 $(wildcard data/resources/*.xml) $(FBSHAREDIR)/resources
-	@echo 'Copy icons'
 	@install -d $(DESTDIR)$(APPIMAGEDIR_REAL)
 	@install -m 0644 $(wildcard data/icons/toolbar/$(VARIANT)/*.*) $(DESTDIR)$(APPIMAGEDIR_REAL)
 	@install -m 0644 $(wildcard data/icons/filetree/$(VARIANT)/*.*) $(DESTDIR)$(APPIMAGEDIR_REAL)
 	@install -m 0644 $(wildcard data/icons/booktree/$(VARIANT)/*.*) $(DESTDIR)$(APPIMAGEDIR_REAL)
-	@echo 'Install $(TARGET_ARCH) ...'
 	@make -C $(TARGET_ARCH) RESOLUTION=$(RESOLUTION) install
 
 clean:

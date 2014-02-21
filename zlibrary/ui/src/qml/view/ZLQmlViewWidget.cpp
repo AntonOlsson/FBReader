@@ -35,6 +35,7 @@
     #include <QtDeclarative/QDeclarativeEngine>
 #else
     #include <QQmlContext>
+    #include <QQmlEngine>
 #endif
 #include "../dialogs/ZLQmlDialogManager.h"
 #include "ZLQmlSwipeGestureRecognizer.h"
@@ -391,12 +392,12 @@ ZLQmlViewWidget::ZLQmlViewWidget(QWidget *parent, ZLQmlViewObject &holder) :
     setViewport(new QGLWidget(this));
 #endif
 	
+    rootContext()->setContextProperty(QLatin1String("objectHolder"), &holder);
+
 	rootContext()->setContextProperty(QLatin1String("applicationInfo"),
 	                                  static_cast<ZLQmlApplicationWindow*>(&ZLApplicationWindow::Instance()));
-	rootContext()->setContextProperty(QLatin1String("objectHolder"), &holder);
-	ZLDialogManager *dialogManager = &ZLDialogManager::Instance();
-	QObject *qDialogManager = static_cast<ZLQmlDialogManager*>(dialogManager);
-	rootContext()->setContextProperty(QLatin1String("dialogManager"), qDialogManager);
+    rootContext()->setContextProperty(QLatin1String("dialogManager"),
+                                      static_cast<ZLQmlDialogManager*>(&ZLDialogManager::Instance()));
 
 	setSource(QUrl::fromLocalFile(QString::fromStdString(ZLibrary::ZLibraryDirectory())
 	                              + "/declarative/Main.qml"));
@@ -521,6 +522,7 @@ bool ZLQmlBookContent::sceneEvent(QEvent *event) {
     return QDeclarativeItem::sceneEvent(event);
 }
 #endif
+
 //void ZLQmlBookContent::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 //	if (!myHolder)
 //		return;

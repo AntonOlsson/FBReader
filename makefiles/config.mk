@@ -40,9 +40,9 @@ ifeq "$(TARGET_STATUS)" "profile"
 	LDFLAGS += -pg
 endif
 
-ZINCLUDE = -I $(ROOTDIR)/zlibrary/core/include -I $(ROOTDIR)/zlibrary/text/include -I $(ROOTDIR)/libs/symbian/include
+ZINCLUDE = -I $(ROOTDIR)/zlibrary/core/include -I $(ROOTDIR)/zlibrary/text/include
 
-ZLSHARED ?= no
+ZLSHARED ?= yes
 
 ifeq "$(ZLSHARED)" "yes"
   CORE_LIBS = -lm -L$(ROOTDIR)/zlibrary/core -lzlcore -ldl $(DB_LIBS)
