@@ -17,14 +17,21 @@
  * 02110-1301, USA.
  */
 
-import QtQuick 1.0
-import com.nokia.meego 1.0
+import QtQuick 2.0
 
-Label {
+
+ButtonColumn {
 	id: root
 	property variant handler
-	width: parent.width
+	spacing: 10
 	visible: handler.visible
 	enabled: handler.enabled
-	text: handler.name + ": " + handler.text
+	
+	Repeater {
+		model: handler.options
+		RadioButton {
+			text: modelData
+			checked: handler.currentIndex == index
+		}
+	}
 }
