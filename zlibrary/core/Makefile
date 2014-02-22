@@ -82,7 +82,8 @@ else
 endif
 	@echo ' OK'
 
-SHARE_ZLIBRARY = $(DESTDIR)$(SHAREDIR)/zlibrary
+ZLSHAREDIR ?= $(SHAREDIR)/zlibrary
+ZLSHARE_DEST := $(DESTDIR)/$(ZLSHAREDIR)
 
 ENCODING_FILES = $(wildcard data/encodings/*)
 ifeq "$(TARGET_ARCH)" "maemo"
@@ -90,19 +91,19 @@ ifeq "$(TARGET_ARCH)" "maemo"
 endif
 
 do_install:
-	@install -d $(SHARE_ZLIBRARY)
-	@install -d $(SHARE_ZLIBRARY)/encodings
-	@install -m 0644 $(ENCODING_FILES) $(SHARE_ZLIBRARY)/encodings
-	@install -d $(SHARE_ZLIBRARY)/resources
-	@install -m 0644 $(wildcard data/resources/*.xml) $(SHARE_ZLIBRARY)/resources
-	@install -m 0644 data/languagePatterns.zip $(SHARE_ZLIBRARY)
-	@install -m 0644 data/unicode.xml.gz $(SHARE_ZLIBRARY)
-	@install -d $(SHARE_ZLIBRARY)/default
+	@install -d $(ZLSHARE_DEST)
+	@install -d $(ZLSHARE_DEST)/encodings
+	@install -m 0644 $(ENCODING_FILES) $(ZLSHARE_DEST)/encodings
+	@install -d $(ZLSHARE_DEST)/resources
+	@install -m 0644 $(wildcard data/resources/*.xml) $(ZLSHARE_DEST)/resources
+	@install -m 0644 data/languagePatterns.zip $(ZLSHARE_DEST)
+	@install -m 0644 data/unicode.xml.gz $(ZLSHARE_DEST)
+	@install -d $(ZLSHARE_DEST)/default
 	@if [ -e data/default/config.$(TARGET_ARCH).xml ]; then \
-		install -m 0644 data/default/config.$(TARGET_ARCH).xml $(SHARE_ZLIBRARY)/default/config.xml; \
+		install -m 0644 data/default/config.$(TARGET_ARCH).xml $(ZLSHARE_DEST)/default/config.xml; \
 	fi
 	@if [ -e data/default/config.$(TARGET_ARCH)-$(UI_TYPE).xml ]; then \
-		install -m 0644 data/default/config.$(TARGET_ARCH)-$(UI_TYPE).xml $(SHARE_ZLIBRARY)/default/config.xml; \
+		install -m 0644 data/default/config.$(TARGET_ARCH)-$(UI_TYPE).xml $(ZLSHARE_DEST)/default/config.xml; \
 	fi
 ifeq "$(ZLSHARED)" "yes"
 	@install -d $(DESTDIR)$(LIBDIR)

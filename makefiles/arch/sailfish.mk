@@ -1,12 +1,17 @@
-# Sailfish OS
+# Sailfish OS configuration
 
 OSNAME = Sailfish
-
 INSTALLDIR = /usr
-IMAGEDIR = $(INSTALLDIR)/share/%APPLICATION_NAME%/icons
+SHAREDIR = $(INSTALLDIR)/share
+IMAGEDIR = $(SHAREDIR)/$(FBREADER_NAME)/icons
 APPIMAGEDIR = $(IMAGEDIR)
 
-##$(DEB_BUILD_ARCH_CPUecho $(DEB_BUILD_ARCH_CPU)
+FBREADER_NAME = harbour-fbreader
+
+## override application paths, we move share/FBReader share/zlibrary to here on install
+#SHAREDIR_MACRO = /usr/share/harbour-fbreader
+
+UNAME_MACHINE := $(shell uname -m)
 
 ZLSHARED = no
 
@@ -20,6 +25,8 @@ RM = rm -rvf
 CFLAGS += -DSAILFISH -DQT5
 CFLAGS += -DQT_DISABLE_DEPRECATED_BEFORE=4
 CFLAGS += -pipe -fno-exceptions -Wall -Wno-ctor-dtor-privacy -W -DLIBICONV_PLUG -fPIC
-QTINCLUDE = -I/usr/include/qt5 -I/usr/include/qt5/QtCore -I/usr/include/qt5/QtQuick -I/usr/include/qt5/QtQml -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtNetwork
-UILIBS = -lQt5Core -lQt5Quick -lQt5Qml -lQt5Widgets -lQt5Gui -lQt5Network -lQt5OpenGL
-EXTERNAL_LIBS += -L$(ROOTDIR)/libs/$(DEB_BUILD_ARCH_CPU)/
+LDFLAGS += -pie -rdynamic
+QTINCLUDE += -I/usr/include/qt5 -I/usr/include/qt5/QtCore -I/usr/include/qt5/QtQuick -I/usr/include/qt5/QtQml -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtNetwork
+UILIBS = -lQt5Core -lQt5Quick -lQt5Qml -lQt5Gui -lQt5Network -lsailfishapp
+EXTERNAL_LIBS += -L$(ROOTDIR)/libs/sailfish/$(UNAME_MACHINE)
+EXTERNAL_INCLUDE += -I$(ROOTDIR)/libs/sailfish/include
