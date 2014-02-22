@@ -129,8 +129,11 @@ else
 endif
 	@echo ' OK'
 
-SHARE_ZLIBRARY = $(DESTDIR)$(SHAREDIR)/zlibrary
-LIB_ZLIBRARY = $(DESTDIR)$(LIBDIR)/zlibrary
+
+ZLSHAREDIR ?= $(SHAREDIR)/zlibrary
+LIB_ZLIBRARY ?= $(LIBDIR)/zlibrary
+
+ZLSHARE_DEST := $(DESTDIR)/$(ZLSHAREDIR)
 
 ifeq "<$(TARGET_ARCH)>" "$(findstring <$(TARGET_ARCH)>, <desktop> <pdaxrom>)"
   KEYNAMES = keynames-$(UI_TYPE).xml
@@ -139,18 +142,18 @@ else
 endif
 
 do_install:
-	@install -d $(SHARE_ZLIBRARY)
+	@install -d $(ZLSHARE_DEST)
 	@if [ -f data/messages.$(TARGET_ARCH).xml ]; then \
-		install -m 0644 data/messages.$(TARGET_ARCH).xml $(SHARE_ZLIBRARY)/messages.xml; \
+		install -m 0644 data/messages.$(TARGET_ARCH).xml $(ZLSHARE_DEST)/messages.xml; \
 	fi
-	@install -m 0644 data/keynames.$(TARGET_ARCH)-$(UI_TYPE).xml $(SHARE_ZLIBRARY)/$(KEYNAMES)
+	@install -m 0644 data/keynames.$(TARGET_ARCH)-$(UI_TYPE).xml $(ZLSHARE_DEST)/$(KEYNAMES)
 ifeq "$(ZLSHARED)" "yes"
-	@install -d $(LIB_ZLIBRARY)/ui
-	@install $(TARGET) $(LIB_ZLIBRARY)/ui
+	@install -d $(DESTDIR)$(LIB_ZLIBRARY)/ui
+	@install $(TARGET) $(DESTDIR)$(LIB_ZLIBRARY)/ui
 endif
 ifeq "$(UI_TYPE)" "qml"
-	@install -d $(SHARE_ZLIBRARY)/declarative
-	@install -m 0644 $(wildcard src/qml/declarative/$(TARGET_ARCH)/*) $(SHARE_ZLIBRARY)/declarative
+	@install -d $(DESTDIR)$(ZLSHAREDIR)/declarative
+	@install -m 0644 $(wildcard src/qml/declarative/$(TARGET_ARCH)/*) $(DESTDIR)$(ZLSHAREDIR)/declarative
 endif
 
 do_install_dev:

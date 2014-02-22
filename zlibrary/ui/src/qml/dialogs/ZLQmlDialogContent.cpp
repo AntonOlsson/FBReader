@@ -17,10 +17,13 @@
  * 02110-1301, USA.
  */
 
+#if ! QT5
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QWidget>
+#include <QDesktopWidget>
 #include <QLayout>
+#endif
+
 
 #include "ZLQmlDialogContent.h"
 #include "ZLQmlOptionView.h"

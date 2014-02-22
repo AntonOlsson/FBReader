@@ -20,10 +20,10 @@
 #ifndef __ZLQTOPTIONSDIALOG_H__
 #define __ZLQTOPTIONSDIALOG_H__
 
-#include <QWidget>
-#include <QTabWidget>
-#include <QDialog>
-
+// #include <QWidget>
+// #include <QTabWidget>
+// #include <QDialog>
+#include <QObject>
 #include "../../../../core/src/dialogs/ZLOptionsDialog.h"
 
 
