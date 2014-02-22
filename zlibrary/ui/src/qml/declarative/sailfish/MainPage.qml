@@ -36,7 +36,6 @@ Page {
         PushUpMenu {
             id: mainMenu
             onActiveChanged: {
-                console.log("main menu active", active)
                 if ( active ){
                     applicationInfo.menuBar.recheckItems()
                 }

@@ -20,11 +20,12 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-
 Label {
     property variant handler
-	visible: handler.visible
-	enabled: handler.enabled
-	text: handler.name + ": " + handler.text
+    width: parent.width
+    visible: handler.visible
+    enabled: handler.enabled
+    text: handler.name + ": " + handler.text
     wrapMode: Text.WordWrap
+    x: Theme.paddingLarge
 }

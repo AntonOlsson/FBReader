@@ -4,9 +4,7 @@ import Sailfish.Silica 1.0
 ApplicationWindow {
     id: root
 
-    initialPage: MainPage {
-        id: mainPage
-    }
+    initialPage: Component { MainPage { } }
     
     Connections {
         target: dialogManager

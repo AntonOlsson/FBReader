@@ -1,4 +1,4 @@
-/*
+    /*
  * Copyright (C) 2004-2011 Geometer Plus <contact@geometerplus.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -60,23 +60,28 @@ Page {
             }
 
             onClicked: {
-                console.log(model.title, model.activatable, model.page)
+                console.log("title", model.title,
+                            "activatable", model.activatable,
+                            "page", model.page)
                 if (model.activatable) {
                     if (root.handler.activate(visualModel.modelIndex(index))) {
-//						root.__close();
                         root.handler.finish();
                     }
                 } else {
-                    console.log(root.component)
-                    var rootIndex = visualModel.modelIndex(index);
-                    var component = model.page ? "TreeDialogItemPage.qml" : "TreeDialogPage.qml"
-                    var args = {
-                        "handler": root.handler,
-                        "rootIndex": rootIndex
+                    if (model.page) {
+                        var args = {
+                            "handler": root.handler,
+                            "modelIndex": visualModel.modelIndex(index),
+                            "imageSource": model.iconSource
+                        }
+                        var page = pageStack.push("TreeDialogItemPage.qml", args)
+                    } else {
+                        var args = {
+                            "handler": root.handler,
+                            "rootIndex": visualModel.modelIndex(index)
+                        }
+                        var page = pageStack.push("TreeDialogPage.qml", args)
                     }
-                    if (model.page)
-                        args["imageSource"] = model.iconSource
-                    var page = pageStack.push(component, args)
                 }
             }
             onPressAndHold: {
@@ -86,7 +91,7 @@ Page {
                 console.log("actions:", actions)
                 if (actions){
                     if (!contextMenu)
-                        contextMenu = contextMenuComponent.createObject(listView,
+                        contextMenu = contextMenuComponent.createObject(root,
                                     {"actions": actions, "modelIndex": modelIndex})
                     contextMenu.show(listItem);
                 }
@@ -115,15 +120,17 @@ Page {
                 model: actions
                 MenuItem {
                     text: modelData
-                    visible: root.handler.isVisibleAction(modelIndex, index)
+                    //visible: root.handler.isVisibleAction(modelIndex, index)
                     onClicked: root.handler.run(modelIndex, index)
                 }
             }
         }
     }
 
-    onStatusChanged: {
-        if (status === PageStatus.Inactive && pageStack.depth === 1)
-            handler.finish()
+    Connections {
+        target: handler
+        onProgressChanged: {
+            console.log("on progress changed")
+        }
     }
 }

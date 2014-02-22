@@ -24,24 +24,38 @@ import org.fbreader 0.14
 Page {
 	id: root
     property variant handler
-    property variant rootIndex
+    property variant modelIndex
     property variant imageSource
 
     Column{
         width: parent.width
         PageHeader {
-            title: content.content.title
+            title: dialogContent.content.title
+        }
+
+        Image {
+            source: imageSource
         }
 
         DialogContent {
-            id: content
-            content: root.handler.createPageContent(root.rootIndex)
+            id: dialogContent
+            content: root.handler.createPageContent(root.modelIndex)
         }
-        Repeater {
-            model: root.handler.actions(root.rootIndex)
-            Button {
-                text: modelData
+        Column{
+            Repeater {
+                model: root.handler.actions(root.modelIndex)
+                Button {
+                    text: modelData
+                    onClicked: {
+                        root.handler.run(root.modelIndex, index)
+                    }
+                }
             }
         }
     }
+
+    Component.onCompleted: console.log("TreeDialogItemPage",
+                                       "title", handler.title,
+                                       "content.title", dialogContent.content.title,
+                                       "imageSource", imageSource)
 }
