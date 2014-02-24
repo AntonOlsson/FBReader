@@ -32,47 +32,48 @@ all: .resources
 	@echo ' OK'
 
 FBSHAREDIR ?= $(SHAREDIR)/$(TARGET)
-FBSHARE_DEST := $(DESTDIR)/$(FBSHAREDIR)
-
-EXTERNAL_FILE = "external.$(TARGET_ARCH).xml"
-
-ifeq "$(TARGET_ARCH)" "maemo"
-  ifeq "$(UI_TYPE)" "qml"
-	EXTERNAL_FILE = "external.maemo6.xml"
-  endif
-endif
+FBSHARE_INSTALL := $(DESTDIR)/$(FBSHAREDIR)
 
 VARIANT = $(TARGET_ARCH)
 ifneq "$(RESOLUTION)" "" 
   VARIANT = $(TARGET_ARCH)_$(RESOLUTION)
 endif
 
+
+EXTERNAL_FILE = "external.$(TARGET_ARCH).xml"
+ifeq "$(TARGET_ARCH)" "maemo"
+  ifeq "$(UI_TYPE)" "qml"
+	EXTERNAL_FILE = "external.maemo6.xml"
+  endif
+endif
+
+
 APPIMAGEDIR_REAL = $(subst %application_name%,$(target),$(subst %APPLICATION_NAME%,$(TARGET),$(APPIMAGEDIR)))
 do_install:
 	@install -d $(DESTDIR)$(BINDIR)
 	@install $(TARGET) $(DESTDIR)$(BINDIR)/$(TARGET)
-	@install -d $(FBSHARE_DEST)
-	@install -d $(FBSHARE_DEST)/help
-	@./scripts/install_help.sh $(VARIANT) $(FBSHARE_DEST)/help
-	@install -d $(FBSHARE_DEST)/network
-	@install -d $(FBSHARE_DEST)/network/certificates
-	@install -m 0644 $(wildcard data/network/certificates/*.crt) $(FBSHARE_DEST)/network/certificates
-	@install -d $(FBSHARE_DEST)/formats/html
-	@install -m 0644 data/formats/html/html.ent $(FBSHARE_DEST)/formats/html
-	@install -d $(FBSHARE_DEST)/formats/xhtml
-	@install -m 0644 $(wildcard data/formats/xhtml/*.ent) $(FBSHARE_DEST)/formats/xhtml
-	@install -d $(FBSHARE_DEST)/formats/fb2
-	@sed "s/VERSION/$(VERSION)/" data/formats/fb2/FBReaderVersion.ent > $(FBSHARE_DEST)/formats/fb2/FBReaderVersion.ent
-	@install -m 0644 data/formats/fb2/fb2genres.xml $(FBSHARE_DEST)/formats/fb2
-	@install -d $(FBSHARE_DEST)/default
-	@./scripts/install_toolbar_and_menu.sh $(VARIANT) $(UI_TYPE) $(FBSHARE_DEST)/default
-	@./scripts/install_config.sh $(VARIANT) $(UI_TYPE) $(FBSHARE_DEST)/default
-	@install -m 0644 data/default/$(EXTERNAL_FILE) $(FBSHARE_DEST)/default/external.xml
+		@install -d $(FBSHARE_INSTALL)
+		@install -d $(FBSHARE_INSTALL)/help
+		@./scripts/install_help.sh $(VARIANT) $(FBSHARE_INSTALL)/help
+		@install -d $(FBSHARE_INSTALL)/network
+		@install -d $(FBSHARE_INSTALL)/network/certificates
+		@install -m 0644 $(wildcard data/network/certificates/*.crt) $(FBSHARE_INSTALL)/network/certificates
+		@install -d $(FBSHARE_INSTALL)/formats/html
+		@install -m 0644 data/formats/html/html.ent $(FBSHARE_INSTALL)/formats/html
+		@install -d $(FBSHARE_INSTALL)/formats/xhtml
+		@install -m 0644 $(wildcard data/formats/xhtml/*.ent) $(FBSHARE_INSTALL)/formats/xhtml
+		@install -d $(FBSHARE_INSTALL)/formats/fb2
+		@sed "s/VERSION/$(VERSION)/" data/formats/fb2/FBReaderVersion.ent > $(FBSHARE_INSTALL)/formats/fb2/FBReaderVersion.ent
+		@install -m 0644 data/formats/fb2/fb2genres.xml $(FBSHARE_INSTALL)/formats/fb2
+		@install -d $(FBSHARE_INSTALL)/default
+		@./scripts/install_toolbar_and_menu.sh $(VARIANT) $(UI_TYPE) $(FBSHARE_INSTALL)/default
+		@./scripts/install_config.sh $(VARIANT) $(UI_TYPE) $(FBSHARE_INSTALL)/default
+		@install -m 0644 data/default/$(EXTERNAL_FILE) $(FBSHARE_INSTALL)/default/external.xml
 	@if [ -f data/default/messages.$(TARGET_ARCH).xml ]; then \
-		install -m 0644 data/default/messages.$(TARGET_ARCH).xml $(FBSHARE_DEST)/default/messages.xml; \
+				install -m 0644 data/default/messages.$(TARGET_ARCH).xml $(FBSHARE_INSTALL)/default/messages.xml; \
 	fi
-	@install -d $(FBSHARE_DEST)/resources
-	@install -m 0644 $(wildcard data/resources/*.xml) $(FBSHARE_DEST)/resources
+		@install -d $(FBSHARE_INSTALL)/resources
+		@install -m 0644 $(wildcard data/resources/*.xml) $(FBSHARE_INSTALL)/resources
 	@install -d $(DESTDIR)$(APPIMAGEDIR_REAL)
 	@install -m 0644 $(wildcard data/icons/toolbar/$(VARIANT)/*.*) $(DESTDIR)$(APPIMAGEDIR_REAL)
 	@install -m 0644 $(wildcard data/icons/filetree/$(VARIANT)/*.*) $(DESTDIR)$(APPIMAGEDIR_REAL)

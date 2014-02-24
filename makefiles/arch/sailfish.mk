@@ -25,7 +25,7 @@ RM = rm -rvf
 CFLAGS += -DSAILFISH -DQT5
 CFLAGS += -DQT_DISABLE_DEPRECATED_BEFORE=4
 CFLAGS += -pipe -fno-exceptions -Wall -Wno-ctor-dtor-privacy -W -DLIBICONV_PLUG -fPIC
-LDFLAGS += -pie -rdynamic
+LDFLAGS += -pie
 QTINCLUDE += -I/usr/include/qt5 -I/usr/include/qt5/QtCore -I/usr/include/qt5/QtQuick -I/usr/include/qt5/QtQml -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtNetwork
 UILIBS = -lQt5Core -lQt5Quick -lQt5Qml -lQt5Gui -lQt5Network -lsailfishapp
 EXTERNAL_LIBS += -L$(ROOTDIR)/libs/sailfish/$(UNAME_MACHINE)

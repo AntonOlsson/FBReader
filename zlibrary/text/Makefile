@@ -43,11 +43,11 @@ else
 endif
 	@echo ' OK'
 
-SHARE_ZLIBRARY = $(DESTDIR)$(SHAREDIR)/zlibrary
+ZLSHAREDIR ?= $(SHAREDIR)/zlibrary
 
 do_install:
-	@install -d $(SHARE_ZLIBRARY)
-	@install -m 0644 $(wildcard data/hyphenationPatterns.zip) $(SHARE_ZLIBRARY)
+	@install -d $(DESTDIR)/$(ZLSHAREDIR)
+	@install -m 0644 $(wildcard data/hyphenationPatterns.zip) $(DESTDIR)/$(ZLSHAREDIR)
 ifeq "$(ZLSHARED)" "yes"
 	@install -d $(DESTDIR)$(LIBDIR)
 	@install $(TARGET) $(DESTDIR)$(LIBDIR)
