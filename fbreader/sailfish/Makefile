@@ -9,6 +9,7 @@ install:
 	@install -m 0644 ../data/default/styles.$(TARGET_ARCH).xml $(FBSHARE_DEST)/default/styles.xml
 	@install -m 0644 ../data/default/menubar.$(TARGET_ARCH).xml $(FBSHARE_DEST)/default/menubar.xml
 	@install -m 0644 ../data/default/config.$(TARGET_ARCH).xml $(FBSHARE_DEST)/default/config.xml
+	@install -m 0644 ../data/default/toolbar.$(TARGET_ARCH).xml $(FBSHARE_DEST)/default/toolbar.xml
 	@install -d $(DESTDIR)$(SHAREDIR)/icons/hicolor/86x86/apps
 	@install -m 0644 ../data/icons/application/$(TARGET_ARCH).png $(DESTDIR)$(SHAREDIR)/icons/hicolor/86x86/apps/$(FBREADER_NAME).png
 	@install -d $(DESTDIR)$(SHAREDIR)/applications/

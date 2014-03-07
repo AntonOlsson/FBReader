@@ -104,8 +104,8 @@ QString ZLQmlApplicationWindow::bookTitle() const {
 
 ZLQmlMenuBar::ZLQmlMenuBar(ZLQmlApplicationWindow *window) : QObject(window) {
 	connect(this, SIGNAL(activated(int)),
-	        this, SLOT(delayedActivate(int)),
-	        Qt::QueuedConnection);
+			this, SLOT(delayedActivate(int)),
+			Qt::QueuedConnection);
 }
 
 ZLQmlMenuBar::~ZLQmlMenuBar() {
@@ -113,7 +113,7 @@ ZLQmlMenuBar::~ZLQmlMenuBar() {
 
 void ZLQmlMenuBar::init() {
 	ZLQmlApplicationWindow *window = static_cast<ZLQmlApplicationWindow*>(parent());
-	
+
 	Builder builder;
 	builder.processMenu(window->application());
 	myIds = builder.ids();
@@ -211,7 +211,7 @@ void ZLQmlApplicationWindow::addToolbarItem(ZLToolbar::ItemPtr item) {
 	if (type(*item) == FULLSCREEN_TOOLBAR)
 		return;
 	ZLQmlToolBarItem *action = 0;
-	
+
 	switch (item->type()) {
 		case ZLToolbar::Item::PLAIN_BUTTON:
 		case ZLToolbar::Item::TOGGLE_BUTTON:
@@ -222,8 +222,8 @@ void ZLQmlApplicationWindow::addToolbarItem(ZLToolbar::ItemPtr item) {
 			break;
 		case ZLToolbar::Item::MENU_BUTTON:
 			qDebug("\"%s\" \"%s\"",
-			       static_cast<ZLToolbar::MenuButtonItem&>(*item).actionId().c_str(),
-			       static_cast<ZLToolbar::MenuButtonItem&>(*item).label().c_str());
+				   static_cast<ZLToolbar::MenuButtonItem&>(*item).actionId().c_str(),
+				   static_cast<ZLToolbar::MenuButtonItem&>(*item).label().c_str());
 			action = new ZLQmlToolBarMenu(static_cast<ZLToolbar::MenuButtonItem&>(*item), this);
 			break;
 		case ZLToolbar::Item::TEXT_FIELD:
@@ -273,10 +273,10 @@ void ZLQmlApplicationWindow::setToolbarItemState(ZLToolbar::ItemPtr item, bool v
 
 #if QT5
 QQmlListProperty<QObject> ZLQmlApplicationWindow::actions() {
-    QQmlListProperty<QObject> actions(this, myActions);
+	QQmlListProperty<QObject> actions(this, myActions);
 #else
 QDeclarativeListProperty<QObject> ZLQmlApplicationWindow::actions() {
-    QDeclarativeListProperty<QObject> actions(this, myActions);
+	QDeclarativeListProperty<QObject> actions(this, myActions);
 #endif
 	actions.append = NULL;
 	actions.clear = NULL;
@@ -317,7 +317,7 @@ QObject *ZLQmlApplicationWindow::menuBar() {
 }
 
 ZLQmlToolBarItem::ZLQmlToolBarItem(ZLToolbar::Item::Type type, QObject *parent)
-    : QObject(parent), myVisible(true), myEnabled(true), myType(static_cast<Type>(type)) {
+	: QObject(parent), myVisible(true), myEnabled(true), myType(static_cast<Type>(type)) {
 }
 
 ZLQmlToolBarItem::~ZLQmlToolBarItem() {
@@ -349,8 +349,9 @@ void ZLQmlToolBarItem::setVisible(bool visible) {
 	emit visibleChanged(myVisible);
 }
 
+#if MEEGO_EDITION
 const char *platformIcons[][2] = {
-    { "addBook", "toolbar-add" },
+	{ "addBook", "toolbar-add" },
 	{ "advancedSearchOnNetwork", "" },
 	{ "bookInfo", "" },
 	{ "byAuthor", "" },
@@ -370,9 +371,32 @@ const char *platformIcons[][2] = {
 	{ "toc", "toolbar-list" },
 	{ "undo", "toolbar-undo" }
 };
+#elif SAILFISH
+const char *platformIcons[][2] = {
+	{ "addBook", "add" },
+	{ "advancedSearchOnNetwork", "" },
+	{ "bookInfo", "" },
+	{ "byAuthor", "" },
+	{ "byTag", "" },
+	{ "findNext", "next" },
+	{ "findPrevious", "previous" },
+	{ "gotoHome", "home" },
+	{ "preferences", "" },
+	{ "redo", "forward" },
+	{ "rotate", "" },
+	{ "search", "" },
+	{ "showHelp", "" },
+	{ "library", "" },
+	{ "networkLibrary", "" },
+	{ "showReading", "" },
+	{ "showRecent", "" },
+	{ "toc", "" },
+	{ "undo", "back" }
+};
+#endif
 
 ZLQmlToolBarAction::ZLQmlToolBarAction(ZLToolbar::AbstractButtonItem &item, QObject *parent)
-    : ZLQmlToolBarItem(item.type(), parent), myChecked(false), myItem(item) {
+	: ZLQmlToolBarItem(item.type(), parent), myChecked(false), myItem(item) {
 	myIconSource = QString::fromUtf8(ZLibrary::ApplicationImageDirectory().c_str());
 	myIconSource += '/';
 	myIconSource += QString::fromUtf8(myItem.iconName().c_str());
@@ -416,7 +440,7 @@ void ZLQmlToolBarAction::delayedActivate() {
 }
 
 ZLQmlToolBarMenu::ZLQmlToolBarMenu(ZLToolbar::MenuButtonItem &item, QObject *parent)
-    : ZLQmlToolBarAction(item, parent), myPopupData(item.popupData()) {
+	: ZLQmlToolBarAction(item, parent), myPopupData(item.popupData()) {
 //	setPopupData(item.popupData());
 }
 
