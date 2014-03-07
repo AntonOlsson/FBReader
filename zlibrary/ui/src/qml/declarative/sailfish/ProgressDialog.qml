@@ -14,7 +14,7 @@ Rectangle {
         horizontalAlignment: Text.AlignHCenter
         wrapMode: Text.Wrap
         width: parent.width
-        text: root.handler.text
+        text: handler ? handler.text : ""
     }
     
     BusyIndicator {
@@ -47,7 +47,7 @@ Rectangle {
     }
 
     Connections {
-        target: handler
+        target: handler ? handler : null
         onFinished: {
             hide()
         }
