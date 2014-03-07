@@ -36,4 +36,4 @@ pkconfig/
 .deps/
 .libs/
 *.la
-test.txt
+fbreader/harbour-fbreader
