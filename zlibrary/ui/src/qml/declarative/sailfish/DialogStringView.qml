@@ -26,24 +26,10 @@ Item {
     width: parent.width
     visible: handler.visible
     height: childrenRect.height
-    
-
-//    Label {
-//        id: label
-//        text: handler.name
-//        x: Theme.paddingLarge
-//    }
 
     TextField {
         id: textField
         width: parent.width
-//        anchors {
-//            left: label.right
-//            right: root.right
-//            leftMargin: Theme.paddingMedium
-//            rightMargin: Theme.paddingLarge
-//            verticalCenter: label.verticalCenter
-//        }
         label: handler.name
         placeholderText: label
         enabled: handler.enabled
@@ -51,9 +37,4 @@ Item {
         echoMode: handler.password ? TextInput.PasswordEchoOnEdit : TextInput.Normal
         onTextChanged: root.handler.text = text
     }
-
-//    Connections {
-//        target: root.handler
-//        onTextChanged: textField.text = root.handler.text
-//    }
 }
